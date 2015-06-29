@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Döviz Değiştirme</string>
+    <string name="action_settings">Ayarlar</string>
+    <string name="hello_world">Merhaba Dünya</string>
+    <string name="title_activity_main">Döviz Değiştirme</string>
+    <string name="content_authority" translatable="false">com.excurrency.app</string>
+</resources>
