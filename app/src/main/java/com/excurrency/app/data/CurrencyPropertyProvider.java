@@ -8,7 +8,7 @@ import android.net.Uri;
 /**
  * Created by bora on 23.06.2015.
  */
-public class CurrencyProvider extends ContentProvider{
+public class CurrencyPropertyProvider extends ContentProvider{
 
     private CurrencyDBHelper mCurrencyDbHelper;
 

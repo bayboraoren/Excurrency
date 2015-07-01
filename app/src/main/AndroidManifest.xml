@@ -28,7 +28,7 @@
 
         <provider
             android:authorities="com.excurrency.app"
-            android:name=".data.CurrencyProvider"
+            android:name=".data.CurrencyPropertyProvider"
             android:exported="false"
             android:syncable="true"/>
 

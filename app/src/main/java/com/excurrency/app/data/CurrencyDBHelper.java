@@ -58,7 +58,12 @@ public class CurrencyDBHelper extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_CURRENCY_PROPERTY_TABLE);
         db.execSQL(SQL_CREATE_CURRENCY_DATA_TABLE);
+        addCurrencyProperties(db);
 
+    }
+
+
+    private void addCurrencyProperties(SQLiteDatabase db){
     }
 
     @Override
