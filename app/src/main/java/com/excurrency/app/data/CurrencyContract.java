@@ -1,5 +1,6 @@
 package com.excurrency.app.data;
 
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -27,6 +28,9 @@ public class CurrencyContract {
         public static final String COLUMN_CURRENCY_COUNTRY = "currency_country";
         public static final String COLUMN_CURRENCY_ENABLED = "currency_enabled";
 
+        public static Uri buildCurrencyListUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().appendPath("ENABLED").appendPath("TRUE").build();
+        }
 
     }
 
@@ -51,6 +55,8 @@ public class CurrencyContract {
 
 
     }
+
+
 
 
 

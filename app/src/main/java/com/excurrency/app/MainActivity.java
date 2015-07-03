@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.excurrency.app.data.CurrencyDBHelper;
 import com.excurrency.app.setting.SettingsActivity;
 
 
@@ -18,6 +19,9 @@ public class MainActivity extends ActionBarActivity {
         if(savedInstanceState==null){
             getSupportFragmentManager().beginTransaction().add(R.id.container,new MainActivityFragment()).commit();
         }
+
+        CurrencyDBHelper currencyDBHelper = new CurrencyDBHelper(this);
+        currencyDBHelper.getWritableDatabase();
 
 
     }
