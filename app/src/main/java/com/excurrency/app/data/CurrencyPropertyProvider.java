@@ -22,7 +22,7 @@ public class CurrencyPropertyProvider extends ContentProvider{
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
-        Cursor  retCursor = mCurrencyDbHelper.getReadableDatabase().query(
+        return mCurrencyDbHelper.getReadableDatabase().query(
                 CurrencyContract.CurrencyPropertyEntry.TABLE_NAME,
                 projection,
                 selection,
@@ -31,7 +31,6 @@ public class CurrencyPropertyProvider extends ContentProvider{
                 null,
                 sortOrder);
 
-        return retCursor;
     }
 
     @Override
@@ -52,6 +51,12 @@ public class CurrencyPropertyProvider extends ContentProvider{
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        return 0;
+        return mCurrencyDbHelper.getWritableDatabase().update(
+                CurrencyContract.CurrencyPropertyEntry.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+
     }
 }

@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
  */
 public class CurrencyDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     static final String DATABASE_NAME = "currency.db";
     private Context ctx;
 

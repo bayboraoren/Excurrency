@@ -32,6 +32,11 @@ public class CurrencyContract {
             return CONTENT_URI.buildUpon().appendPath("ENABLED").appendPath("TRUE").build();
         }
 
+        public static Uri buildCurrencyUpdateToggleUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().appendPath("ENABLED").appendPath("TRUE").build();
+        }
+
+
     }
 
     //CURRENCY DATA ENTRY

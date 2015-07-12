@@ -3,12 +3,12 @@
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AFN','Afghanistan Afghani','afghanistan',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('ALL','Albanian Lek','albania',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('DZD','Algerian Dinar','algeria',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('USD','US Dollar','american samoa',0);
+INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('USD','US Dollar','american_samoa',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('EUR','Euro','andorra',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AOA','Angolan Kwanza','angola',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('XCD','East Caribbean Dollar','anguilla',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('XCD','East Caribbean Dollar','antarctica',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('XCD','East Caribbean Dollar','antigua and barbuda',0);
+INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('XCD','East Caribbean Dollar','antigua_and_barbuda',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('ARS','Argentine Peso','argentina',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AMD','Armenian Dram','armenia',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AWG','Aruban Guilder','aruba',0);
@@ -26,7 +26,7 @@ INSERT INTO currency_property(currency_code,currency_name,currency_country,curre
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BMD','Bermudian Dollar','bermuda',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BTN','Bhutan Ngultrum','bhutan',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BOB','Boliviano','bolivia',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BAM','Marka','bosnia-herzegovina',0);
+INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BAM','Marka','bosnia_and_herzegovina',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BWP','Botswana Pula','botswana',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('NOK','Norwegian Krone','bouvet island',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('BRL','Brazilian Real','brazil',0);
