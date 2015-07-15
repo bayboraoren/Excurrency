@@ -1,6 +1,7 @@
 package com.excurrency.app;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
@@ -29,6 +30,16 @@ public class CurrencyAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         CurrencyViewHolder viewHolder = (CurrencyViewHolder ) view.getTag();
-        viewHolder.flagImage.setImageResource(R.drawable.turkey);
+
+
+        Resources resources = context.getResources();
+        final int resourceId = resources.getIdentifier(cursor.getString(2), "drawable",
+                context.getPackageName());
+
+        if(resourceId!=0) {
+            viewHolder.flagImage.setImageDrawable(resources.getDrawable(resourceId));
+            viewHolder.currencyName.setText(cursor.getString(2));
+            viewHolder.currencyCode.setText(cursor.getString(1));
+        }
     }
 }

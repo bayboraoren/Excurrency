@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.excurrency.app.data.CurrencyContract;
 import com.excurrency.app.service.CurrencyService;
 
 import java.util.ArrayList;
@@ -27,8 +28,15 @@ import java.util.List;
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     CurrencyAdapter mCurrencyAdapter;
+    private static final int CURRENCY_LOADER = 0;
 
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(CURRENCY_LOADER , null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -59,26 +67,29 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-
-        /*Uri weatherForLocationUri =
-
         return new CursorLoader(getActivity(),
-                weatherForLocationUri,
-                FORECAST_COLUMNS,
+                CurrencyContract.CurrencyDataEntry.buildCurrencyListUri(true),
                 null,
                 null,
-                sortOrder);*/
+                null,
+                null);
 
-        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        mCurrencyAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+
+    @Override
+    public void onResume() {
+        getLoaderManager().restartLoader(CURRENCY_LOADER, null, this);
+        super.onResume();
     }
 }

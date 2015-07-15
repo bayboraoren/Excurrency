@@ -3,6 +3,7 @@ package com.excurrency.app.service;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
@@ -27,8 +28,8 @@ import java.util.Vector;
  */
 public class CurrencyService extends IntentService {
 
-    public static final String LOG_TAG  = CurrencyService.class.getSimpleName();
-
+    public static final String LOG_TAG = CurrencyService.class.getSimpleName();
+    public String toCurrencyCode = "TRY";
 
     public CurrencyService() {
         super("Excurrency");
@@ -37,7 +38,32 @@ public class CurrencyService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        String CURRENCY_BASE_URL = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22EURTRY%22,%20%22USDTRY%22,%20%22TRYEUR%22)&lang=fr-CA&env=store://datatables.org/alltableswithkeys&format=json";
+
+
+        Cursor retCurrencyPropertyCursor = getContentResolver().query(
+                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
+                null,
+                null,
+                null,
+                null
+        );
+
+
+        String where = "";
+
+        while(retCurrencyPropertyCursor.moveToNext()){
+
+            String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_CODE);
+
+            //"%20%22USDTRY%22","%20%22USDTRY%22"
+            where = where + "\"" + currencyCode + toCurrencyCode + "\"" + ",";
+
+        }
+
+        where = where.substring(0, where.lastIndexOf(',', where.lastIndexOf(',')));
+
+
+        String CURRENCY_BASE_URL = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20("+where+")&lang=en&env=store://datatables.org/alltableswithkeys&format=json";
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -70,7 +96,7 @@ public class CurrencyService extends IntentService {
                 return;
             }
 
-            getDataFromCurrency(buffer.toString());
+            getDataFromCurrency(buffer.toString(),retCurrencyPropertyCursor);
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
@@ -89,7 +115,7 @@ public class CurrencyService extends IntentService {
     }
 
 
-    private void getDataFromCurrency(String currencyJsonStr){
+    private void getDataFromCurrency(String currencyJsonStr,Cursor retCurrencyPropertyCursor) {
 
 /*
 
@@ -123,18 +149,20 @@ public class CurrencyService extends IntentService {
 
 
         //currency resources information
-        final String CURRENCY_QUERY="query";
-        final String CURRENCY_RESULTS="results";
-        final String CURRENCY_RATE_ARRAY="rate";
+        final String CURRENCY_QUERY = "query";
+        final String CURRENCY_RESULTS = "results";
+        final String CURRENCY_RATE_ARRAY = "rate";
 
         //currency information
-        final String CURRENCY_NAME="Name";
-        final String CURRENCY_RATE="Rate";
-        final String CURRENCY_DATE="Date";
-        final String CURRENCY_TIME="Time";
-        final String CURRENCY_ASK="Ask";
-        final String CURRENCY_BID="Bid";
+        final String CURRENCY_ID = "id";
+        final String CURRENCY_NAME = "Name";
+        final String CURRENCY_RATE = "Rate";
+        final String CURRENCY_DATE = "Date";
+        final String CURRENCY_TIME = "Time";
+        final String CURRENCY_ASK = "Ask";
+        final String CURRENCY_BID = "Bid";
 
+        String id;
         String name;
         String rate;
         long date;
@@ -143,9 +171,8 @@ public class CurrencyService extends IntentService {
         String bid;
 
 
+        try {
 
-
-        try{
 
             JSONObject currencyJson = new JSONObject(currencyJsonStr);
             JSONObject query = currencyJson.getJSONObject(CURRENCY_QUERY);
@@ -155,12 +182,12 @@ public class CurrencyService extends IntentService {
             Vector<ContentValues> currencyVector = new Vector<ContentValues>(rateArray.length());
 
 
-
-            for(int counter=0;counter<rateArray.length();counter++){
+            for (int counter = 0; counter < rateArray.length(); counter++) {
 
                 ContentValues currencyValues = new ContentValues();
 
                 JSONObject rateObject = rateArray.getJSONObject(counter);
+                id = rateObject.getString(CURRENCY_ID);
                 name = rateObject.getString(CURRENCY_NAME);
                 rate = rateObject.getString(CURRENCY_RATE);
                 date = DateUtil.convert(rateObject.getString(CURRENCY_DATE));
@@ -168,18 +195,51 @@ public class CurrencyService extends IntentService {
                 ask = rateObject.getString(CURRENCY_ASK);
                 bid = rateObject.getString(CURRENCY_BID);
 
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_NAME,name);
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE,rate);
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_DATE,date);
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_TIME,time);
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_ASK,ask);
-                currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_BID,bid);
 
-                currencyVector.add(currencyValues);
+                long currencyPropertyId = 0;
+
+                retCurrencyPropertyCursor.moveToFirst();
+                while(retCurrencyPropertyCursor.moveToNext()){
+
+                    String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_CODE);
+                    String jsonCurrencyId = currencyCode + toCurrencyCode;
+
+                    if(id.equals(jsonCurrencyId)){
+
+                        int currencyPropertyIdIndex = retCurrencyPropertyCursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry._ID);
+                        currencyPropertyId = retCurrencyPropertyCursor.getLong(currencyPropertyIdIndex);
+
+
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_PROPERTY_KEY, currencyPropertyId);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_NAME, name);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE, rate);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_DATE, date);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_TIME, time);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_ASK, ask);
+                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_BID, bid);
+
+                        currencyVector.add(currencyValues);
+
+                        break;
+                    }
+
+                }
+
+
+
+
 
             }
 
 
+            if ( currencyVector.size() > 0 ) {
+                ContentValues[] cvArray = new ContentValues[currencyVector.size()];
+                currencyVector.toArray(cvArray);
+                this.getContentResolver().bulkInsert(CurrencyContract.CurrencyDataEntry.CONTENT_URI, cvArray);
+            }
+
+
+            Log.i(LOG_TAG, "Tamamlandi...");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);

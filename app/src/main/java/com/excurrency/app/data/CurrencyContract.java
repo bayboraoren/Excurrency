@@ -28,12 +28,27 @@ public class CurrencyContract {
         public static final String COLUMN_CURRENCY_COUNTRY = "currency_country";
         public static final String COLUMN_CURRENCY_ENABLED = "currency_enabled";
 
-        public static Uri buildCurrencyListUri(boolean enabled) {
-            return CONTENT_URI.buildUpon().appendPath("ENABLED").appendPath("TRUE").build();
+
+        //TABLE INDEX
+        public static final int INDEX_COLUMN_CURRENCY_ID = 0;
+        public static final int INDEX_COLUMN_CURRENCY_CODE = 1;
+        public static final int INDEX_COLUMN_CURRENCY_COUNTRY = 2;
+        public static final int INDEX_COLUMN_CURRENCY_NAME = 3;
+        public static final int INDEX_COLUMN_CURRENCY_ENABLED = 4;
+
+
+
+        public static Uri buildCurrencyPropertyListUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().build();
         }
 
-        public static Uri buildCurrencyUpdateToggleUri(boolean enabled) {
-            return CONTENT_URI.buildUpon().appendPath("ENABLED").appendPath("TRUE").build();
+        public static Uri buildCurrencyPropertyListEnabledUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
+        }
+
+
+        public static Uri buildCurrencyPropertyUpdateToggleUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().build();
         }
 
 
@@ -58,6 +73,10 @@ public class CurrencyContract {
         public static final String COLUMN_CURRENCY_ASK = "currency_ask";
         public static final String COLUMN_CURRENCY_BID = "currency_bid";
 
+
+        public static Uri buildCurrencyListUri(boolean enabled) {
+            return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
+        }
 
     }
 

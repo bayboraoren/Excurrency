@@ -4,12 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.DialogPreference;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -20,9 +15,6 @@ import android.widget.ListView;
 
 import com.excurrency.app.R;
 import com.excurrency.app.data.CurrencyContract;
-
-import java.util.ArrayList;
-import java.util.Currency;
 
 /**
  * Created by bora on 30.06.2015.
@@ -95,7 +87,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
         super.onBindDialogView(view);
 
         String sortOrder = CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY + " ASC";
-        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyListUri(true);
+        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri(true);
         Cursor cursor = getContext().getContentResolver().query(currencyListUri,null,null,null,sortOrder);
 
         getCurrencies(cursor,view);

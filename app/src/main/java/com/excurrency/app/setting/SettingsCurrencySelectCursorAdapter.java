@@ -1,7 +1,5 @@
 package com.excurrency.app.setting;
 
-import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,14 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.support.v4.widget.CursorAdapter;
-import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.excurrency.app.R;
@@ -106,7 +101,7 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
                         String where = CurrencyContract.CurrencyPropertyEntry._ID + " = ?";
 
-                        context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyUpdateToggleUri(true),
+                        context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(true),
                                 contentValues, where, new String[]{id});
 
 
@@ -117,7 +112,7 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
                         String where = CurrencyContract.CurrencyPropertyEntry._ID + " = ?";
 
-                        context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyUpdateToggleUri(true),
+                        context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(true),
                                 contentValues, where, new String[]{id});
 
                     }
