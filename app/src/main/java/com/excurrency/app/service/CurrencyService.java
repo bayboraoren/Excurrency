@@ -39,7 +39,7 @@ public class CurrencyService extends IntentService {
 
 
 
-        Cursor retCurrencyPropertyCursor = getContentResolver().query(
+        Cursor retCurrencyPropertyCursor = this.getContentResolver().query(
                 CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
                 null,
                 null,
@@ -100,6 +100,9 @@ public class CurrencyService extends IntentService {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
         } finally {
+
+            retCurrencyPropertyCursor.close();
+
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -111,6 +114,10 @@ public class CurrencyService extends IntentService {
                 }
             }
         }
+
+
+
+        return;
     }
 
 

@@ -16,12 +16,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState==null){
-            getSupportFragmentManager().beginTransaction().add(R.id.container,new MainActivityFragment()).commit();
-        }
 
-        CurrencyDBHelper currencyDBHelper = new CurrencyDBHelper(this);
-        currencyDBHelper.getWritableDatabase();
+        MainActivityFragment forecastFragment =  ((MainActivityFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.main_activity_fragment));
 
 
     }
@@ -48,5 +45,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        MainActivityFragment ma = (MainActivityFragment)getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment);
+
+        if ( null != ma ) {
+            ma.onCurrencyPropertyChanged();
+        }
     }
 }

@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import com.excurrency.app.data.CurrencyContract;
 
-import java.util.Currency;
-
 /**
  * Created by bora on 22.06.2015.
  */
@@ -47,14 +45,18 @@ public class CurrencyAdapter extends CursorAdapter {
 
             viewHolder.flagImage.setImageDrawable(resources.getDrawable(resourceId));
 
-            int currencyNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_NAME);
-            viewHolder.currencyName.setText(cursor.getString(currencyNameIndex));
 
-            int currencyCodeIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE);
-            viewHolder.currencyCode.setText(cursor.getString(currencyCodeIndex));
+            int currencyCountryNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
+            viewHolder.currencyCountryName.setText(cursor.getString(1) + " " + cursor.getString(currencyCountryNameIndex));
+
+            //int currencyCodeIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE);
+            int currencyNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_NAME);
+            viewHolder.currencyCode.setText(cursor.getString(currencyNameIndex));
 
             int currencyRateIndex = cursor.getColumnIndex(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE);
             viewHolder.currencyPrice.setText(cursor.getString(currencyRateIndex));
+
+
 
         }
     }

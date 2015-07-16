@@ -25,6 +25,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private static final int CURRENCY_LOADER = 0;
 
     public MainActivityFragment() {
+
     }
 
     @Override
@@ -50,12 +51,18 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateWeather();
+        updateCurrencyList();
     }
 
-    private void updateWeather() {
+    private void updateCurrencyList() {
         Intent intent = new Intent(getActivity(), CurrencyService.class);
         getActivity().startService(intent);
+    }
+
+
+    void onCurrencyPropertyChanged( ) {
+        updateCurrencyList();
+        getLoaderManager().restartLoader(CURRENCY_LOADER, null, this);
     }
 
     @Override
@@ -77,13 +84,10 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        mCurrencyAdapter.swapCursor(null);
     }
 
 
-    @Override
-    public void onResume() {
-        getLoaderManager().restartLoader(CURRENCY_LOADER, null, this);
-        super.onResume();
-    }
+
+
 }
