@@ -5,9 +5,8 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-
-import java.util.Currency;
 
 /**
  * Created by bora on 23.06.2015.
@@ -21,6 +20,22 @@ public class CurrencyPropertyProvider extends ContentProvider {
     static final int CURRENCY_PROPERTY = 101;
     static final int CURRENCY_DATA_BY_SELECTED_CURRENCY_PROPERTY = 102;
     static final int CURRENCY_PROPERTY_ENABLED = 103;
+
+    private static final SQLiteQueryBuilder sCurrencyDataByCurrencyPropertyBuilder;
+
+    static{
+        sCurrencyDataByCurrencyPropertyBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sCurrencyDataByCurrencyPropertyBuilder.setTables(
+                CurrencyContract.CurrencyDataEntry.TABLE_NAME + " INNER JOIN " +
+                        CurrencyContract.CurrencyPropertyEntry.TABLE_NAME +
+                        " ON " + CurrencyContract.CurrencyDataEntry.TABLE_NAME +
+                        "." + CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_PROPERTY_KEY+
+                        " = " + CurrencyContract.CurrencyPropertyEntry.TABLE_NAME +
+                        "." + CurrencyContract.CurrencyPropertyEntry._ID);
+    }
 
     @Override
     public boolean onCreate() {
@@ -168,14 +183,15 @@ public class CurrencyPropertyProvider extends ContentProvider {
 
     private Cursor getCurrencyDataBySelectedCurrencyProperty(String sortOrder){
 
-        return mCurrencyDbHelper.getReadableDatabase().query(
-                CurrencyContract.CurrencyPropertyEntry.TABLE_NAME,
+        return sCurrencyDataByCurrencyPropertyBuilder.query(mCurrencyDbHelper.getReadableDatabase(),
                 null,
                 sCurrencyPropertySelectedSelection,
                 new String[]{"1"},
                 null,
                 null,
-                sortOrder);
+                sortOrder
+        );
+
     }
 
 

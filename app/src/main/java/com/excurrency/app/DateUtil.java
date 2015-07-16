@@ -6,7 +6,7 @@ package com.excurrency.app;
 public class DateUtil {
 
     // 6/29/2015 to long
-    public static long convert(String date){
+    public static long convert(String date,String time){
         return 0;
     }
 

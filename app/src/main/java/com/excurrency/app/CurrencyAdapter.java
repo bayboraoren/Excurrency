@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.excurrency.app.data.CurrencyContract;
+
 import java.util.Currency;
 
 /**
@@ -32,14 +34,28 @@ public class CurrencyAdapter extends CursorAdapter {
         CurrencyViewHolder viewHolder = (CurrencyViewHolder ) view.getTag();
 
 
+        /*select * from currency_data inner join currency_property on
+        currency_data.currency_property_id = currency_property._id;*/
+
+        int currencyCountryIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
+
         Resources resources = context.getResources();
-        final int resourceId = resources.getIdentifier(cursor.getString(2), "drawable",
+        final int resourceId = resources.getIdentifier(cursor.getString(currencyCountryIndex), "drawable",
                 context.getPackageName());
 
         if(resourceId!=0) {
+
             viewHolder.flagImage.setImageDrawable(resources.getDrawable(resourceId));
-            viewHolder.currencyName.setText(cursor.getString(2));
-            viewHolder.currencyCode.setText(cursor.getString(1));
+
+            int currencyNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_NAME);
+            viewHolder.currencyName.setText(cursor.getString(currencyNameIndex));
+
+            int currencyCodeIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE);
+            viewHolder.currencyCode.setText(cursor.getString(currencyCodeIndex));
+
+            int currencyRateIndex = cursor.getColumnIndex(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE);
+            viewHolder.currencyPrice.setText(cursor.getString(currencyRateIndex));
+
         }
     }
 }

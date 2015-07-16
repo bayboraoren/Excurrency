@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 
@@ -53,7 +52,7 @@ public class CurrencyService extends IntentService {
 
         while(retCurrencyPropertyCursor.moveToNext()){
 
-            String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_CODE);
+            String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
 
             //"%20%22USDTRY%22","%20%22USDTRY%22"
             where = where + "\"" + currencyCode + toCurrencyCode + "\"" + ",";
@@ -190,8 +189,7 @@ public class CurrencyService extends IntentService {
                 id = rateObject.getString(CURRENCY_ID);
                 name = rateObject.getString(CURRENCY_NAME);
                 rate = rateObject.getString(CURRENCY_RATE);
-                date = DateUtil.convert(rateObject.getString(CURRENCY_DATE));
-                time = rateObject.getString(CURRENCY_TIME);
+                date = DateUtil.convert(rateObject.getString(CURRENCY_DATE),rateObject.getString(CURRENCY_TIME));
                 ask = rateObject.getString(CURRENCY_ASK);
                 bid = rateObject.getString(CURRENCY_BID);
 
@@ -199,12 +197,12 @@ public class CurrencyService extends IntentService {
                 long currencyPropertyId = 0;
 
                 retCurrencyPropertyCursor.moveToFirst();
-                while(retCurrencyPropertyCursor.moveToNext()){
+                do{
 
-                    String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_CODE);
-                    String jsonCurrencyId = currencyCode + toCurrencyCode;
+                    String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
+                    String cursorCurrencyId = currencyCode + toCurrencyCode;
 
-                    if(id.equals(jsonCurrencyId)){
+                    if(id.equals(cursorCurrencyId)){
 
                         int currencyPropertyIdIndex = retCurrencyPropertyCursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry._ID);
                         currencyPropertyId = retCurrencyPropertyCursor.getLong(currencyPropertyIdIndex);
@@ -214,7 +212,6 @@ public class CurrencyService extends IntentService {
                         currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_NAME, name);
                         currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE, rate);
                         currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_DATE, date);
-                        currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_TIME, time);
                         currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_ASK, ask);
                         currencyValues.put(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_BID, bid);
 
@@ -223,7 +220,7 @@ public class CurrencyService extends IntentService {
                         break;
                     }
 
-                }
+                }while(retCurrencyPropertyCursor.moveToNext());
 
 
 

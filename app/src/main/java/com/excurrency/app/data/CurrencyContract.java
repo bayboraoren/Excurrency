@@ -30,11 +30,11 @@ public class CurrencyContract {
 
 
         //TABLE INDEX
-        public static final int INDEX_COLUMN_CURRENCY_ID = 0;
-        public static final int INDEX_COLUMN_CURRENCY_CODE = 1;
-        public static final int INDEX_COLUMN_CURRENCY_COUNTRY = 2;
-        public static final int INDEX_COLUMN_CURRENCY_NAME = 3;
-        public static final int INDEX_COLUMN_CURRENCY_ENABLED = 4;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_ID = 0;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_CODE = 1;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_COUNTRY = 2;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_NAME = 3;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_ENABLED = 4;
 
 
 
@@ -69,12 +69,20 @@ public class CurrencyContract {
         public static final String COLUMN_CURRENCY_NAME = "currency_name";
         public static final String COLUMN_CURRENCY_RATE = "currency_rate";
         public static final String COLUMN_CURRENCY_DATE = "currency_date";
-        public static final String COLUMN_CURRENCY_TIME = "currency_time";
         public static final String COLUMN_CURRENCY_ASK = "currency_ask";
         public static final String COLUMN_CURRENCY_BID = "currency_bid";
 
 
-        public static Uri buildCurrencyListUri(boolean enabled) {
+        //TABLE INDEX
+        public static final int INDEX_COLUMN_CURRENCY_DATA_ID = 0;
+        public static final int INDEX_COLUMN_CURRENCY_PROPERTY_KEY = 1;
+        public static final int INDEX_COLUMN_CURRENCY_DATA_NAME = 2;
+        public static final int INDEX_COLUMN_CURRENCY_DATA_RATE = 3;
+        public static final int INDEX_COLUMN_CURRENCY_DATA_DATE = 4;
+        public static final int INDEX_COLUMN_CURRENCY_DATA_ASK = 5;
+        public static final int INDEX_COLUMN_CURRENCY_DATA_BID = 6;
+
+        public static Uri buildCurrencyDataBySelectedCurrencyPropertyUri(boolean enabled) {
             return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
         }
 
