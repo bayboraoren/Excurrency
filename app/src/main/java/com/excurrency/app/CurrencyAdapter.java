@@ -47,7 +47,7 @@ public class CurrencyAdapter extends CursorAdapter {
 
 
             int currencyCountryNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
-            viewHolder.currencyCountryName.setText(cursor.getString(1) + " " + cursor.getString(currencyCountryNameIndex));
+            viewHolder.currencyCountryName.setText(cursor.getString(1) + " " + cursor.getString(currencyCountryNameIndex).replaceAll("_"," ").toUpperCase());
 
             //int currencyCodeIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE);
             int currencyNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_NAME);
