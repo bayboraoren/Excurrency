@@ -1,5 +1,8 @@
 package com.excurrency.app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,6 +17,8 @@ import android.widget.ListView;
 
 import com.excurrency.app.data.CurrencyContract;
 import com.excurrency.app.service.CurrencyService;
+
+import java.util.Currency;
 
 
 /**
@@ -52,6 +57,16 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateCurrencyList();
+        setSchedule();
+    }
+
+    private void setSchedule(){
+
+        AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(getActivity(),CurrencyService.AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i, 0);
+        //20 minustes 1000 * 60 * 20
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * 5, pi); // Millisec * Second * Minute
     }
 
     private void updateCurrencyList() {

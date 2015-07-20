@@ -1,7 +1,9 @@
 package com.excurrency.app.service;
 
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -258,4 +260,15 @@ public class CurrencyService extends IntentService {
 
 
     }
+
+
+    public static class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent sendIntent = new Intent(context, CurrencyService.class);
+            context.startService(sendIntent);
+        }
+    }
+
 }
