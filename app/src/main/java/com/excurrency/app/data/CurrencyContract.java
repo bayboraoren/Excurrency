@@ -86,6 +86,11 @@ public class CurrencyContract {
             return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
         }
 
+        public static Uri buildCurrencyDataById(String id) {
+            return ContentUris.withAppendedId(CurrencyContract.CurrencyDataEntry.CONTENT_URI,Integer.parseInt(id));
+        }
+
+
     }
 
 

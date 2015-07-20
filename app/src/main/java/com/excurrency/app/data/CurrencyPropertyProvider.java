@@ -1,6 +1,7 @@
 package com.excurrency.app.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -20,6 +21,7 @@ public class CurrencyPropertyProvider extends ContentProvider {
     static final int CURRENCY_PROPERTY = 101;
     static final int CURRENCY_DATA_BY_SELECTED_CURRENCY_PROPERTY = 102;
     static final int CURRENCY_PROPERTY_ENABLED = 103;
+    static final int CURRENCY_DATA_BY_ID = 104;
 
     private static final SQLiteQueryBuilder sCurrencyDataByCurrencyPropertyBuilder;
 
@@ -61,6 +63,11 @@ public class CurrencyPropertyProvider extends ContentProvider {
 
             case CURRENCY_DATA_BY_SELECTED_CURRENCY_PROPERTY: {
                 retCursor = getCurrencyDataBySelectedCurrencyProperty(null);
+                break;
+            }
+
+            case CURRENCY_DATA_BY_ID:{
+                retCursor = getCurrencyDataById(uri);
                 break;
             }
 
@@ -160,6 +167,7 @@ public class CurrencyPropertyProvider extends ContentProvider {
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_DATA + "/ENABLED", CURRENCY_DATA_BY_SELECTED_CURRENCY_PROPERTY);
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_PROPERTY, CURRENCY_PROPERTY);
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_PROPERTY + "/ENABLED", CURRENCY_PROPERTY_ENABLED);
+        matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_DATA + "/#", CURRENCY_DATA_BY_ID);
 
 
 
@@ -208,10 +216,30 @@ public class CurrencyPropertyProvider extends ContentProvider {
     }
 
 
+    private Cursor getCurrencyDataById(Uri uri){
+
+        String id = new Long(ContentUris.parseId(uri)).toString();
+
+
+        return sCurrencyDataByCurrencyPropertyBuilder.query(mCurrencyDbHelper.getReadableDatabase(),
+                null,
+                sCurrencyDataId,
+                new String[]{id},
+                null,
+                null,
+                null
+        );
+
+    }
+
+
     private static final String sCurrencyPropertySelectedSelection =
             CurrencyContract.CurrencyPropertyEntry.TABLE_NAME+
                     "." + CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_ENABLED+ " = ? ";
 
+    private static final String sCurrencyDataId =
+            CurrencyContract.CurrencyDataEntry.TABLE_NAME+
+                    "." + CurrencyContract.CurrencyPropertyEntry._ID+ " = ? ";
 
 
 

@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.excurrency.app">
+    package="com.excurrency.app" >
 
-    
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
-
+            android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".setting.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings" >
         </activity>
 
         <provider
-            android:authorities="com.excurrency.app"
             android:name=".data.CurrencyPropertyProvider"
+            android:authorities="com.excurrency.app"
             android:exported="false"
-            android:syncable="true"/>
+            android:syncable="true" />
 
+        <service android:name=".service.CurrencyService" />
 
-        <service android:name=".service.CurrencyService"/>
-        <receiver android:name=".service.CurrencyService$AlarmReceiver" android:enabled="true"/>
+        <receiver
+            android:name=".service.CurrencyService$AlarmReceiver"
+            android:enabled="true" />
+
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
     </application>
 
 </manifest>
