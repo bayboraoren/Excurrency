@@ -33,36 +33,9 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
 
     private void getCurrencies(Cursor cursor,View view){
-
-
         ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
 
         arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0);
-
-        list.setAdapter(arrAdapter);
-
-        EditText inputSearch = (EditText) view.findViewById(R.id.inputSearch);
-
-        inputSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                arrAdapter.getFilter().filter(cs);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
 
         list.setAdapter(arrAdapter);
     }
@@ -76,7 +49,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        builder.setTitle("Test");
+        builder.setTitle(R.string.select_currencies);
         builder.setPositiveButton(null, null);
         builder.setNegativeButton(null, null);
         super.onPrepareDialogBuilder(builder);
@@ -95,45 +68,5 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
     }
 
 
-    /* @Override
-    public void onBindDialogView(View view) {
-
-        ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
-        ArrayList<SettingsCurrencySelectModel> arrList = new ArrayList<SettingsCurrencySelectModel>();
-
-        for (int i = 0; i < 163; i++) {
-            SettingsCurrencySelectModel settingsCurrencySelectModel = new SettingsCurrencySelectModel(R.drawable.turkey, "Turkey", "TRY", 23.473F + i);
-            arrList.add(settingsCurrencySelectModel);
-        }
-
-        arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), null, 0);
-
-        EditText inputSearch = (EditText) view.findViewById(R.id.inputSearch);
-
-        inputSearch.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                arrAdapter.getFilter().filter(cs);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        list.setAdapter(arrAdapter);
-
-        super.onBindDialogView(view);
-    }*/
 
 }
