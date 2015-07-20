@@ -6,4 +6,13 @@
     <string name="title_activity_settings">Settings</string>
     <string name="content_authority" translatable="false">com.excurrency.app</string>
     <string name="select_currencies">Select Currencies</string>
+    <string name="pref_schedule_time_label">Schedule in minutes</string>
+    <string name="pref_schedule_time_key">schedule</string>
+
+
+    <string name="pref_schedule_time_one">1</string>
+    <string name="pref_schedule_time_five">5</string>
+    <string name="pref_schedule_time_ten">10</string>
+    <string name="pref_schedule_time_fifteen">15</string>
+
 </resources>

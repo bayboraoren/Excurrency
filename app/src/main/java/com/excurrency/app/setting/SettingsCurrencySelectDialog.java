@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.DialogPreference;
+import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -31,8 +32,8 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
     }
 
 
-
     private void getCurrencies(Cursor cursor,View view){
+
         ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
 
         arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0);
@@ -63,10 +64,33 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
         Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri(true);
         Cursor cursor = getContext().getContentResolver().query(currencyListUri,null,null,null,sortOrder);
 
-        getCurrencies(cursor,view);
+        getCurrencies(cursor, view);
 
     }
 
+    @Override
+    public CharSequence getSummary() {
 
+        Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(true),
+                null,
+                null,
+                null,
+                null);
+
+        String str = "";
+        cursor.moveToFirst();
+
+        do {
+            //TODO currency country
+            str = str + cursor.getString(9) + ", ";
+
+        }while(cursor.moveToNext());
+
+        cursor.close();
+
+        str = str.replaceAll("_"," ").toUpperCase();
+
+        return str;
+    }
 
 }

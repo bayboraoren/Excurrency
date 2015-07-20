@@ -57,16 +57,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateCurrencyList();
-        setSchedule();
+        setSchedule(Integer.parseInt(Utils.getSchedule(getActivity())));
     }
 
-    private void setSchedule(){
+    private void setSchedule(int selectedScheduleTime){
 
         AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(getActivity(),CurrencyService.AlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         //20 minustes 1000 * 60 * 20
-        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * 5, pi); // Millisec * Second * Minute
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * selectedScheduleTime , pi); // Millisec * Second * Minute
+
     }
 
     private void updateCurrencyList() {
@@ -76,6 +77,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
 
     void onCurrencyPropertyChanged( ) {
+        setSchedule(Integer.parseInt(Utils.getSchedule(getActivity())));
         updateCurrencyList();
         getLoaderManager().restartLoader(CURRENCY_LOADER, null, this);
     }

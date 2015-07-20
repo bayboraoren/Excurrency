@@ -5,4 +5,11 @@
         android:summary=""
         android:title="@string/select_currencies" />
 
+    <ListPreference
+        android:title="@string/pref_schedule_time_label"
+        android:key="@string/pref_schedule_time_key"
+        android:defaultValue="@string/pref_schedule_time_five"
+        android:entryValues="@array/pref_schedule_time_values"
+        android:entries="@array/pref_schedule_time_values" />
+
 </PreferenceScreen>

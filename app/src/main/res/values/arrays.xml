@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_schedule_time_values">
+        <item>@string/pref_schedule_time_one</item>
+        <item>@string/pref_schedule_time_five</item>
+        <item>@string/pref_schedule_time_ten</item>
+        <item>@string/pref_schedule_time_fifteen</item>
+    </string-array>
+</resources>
