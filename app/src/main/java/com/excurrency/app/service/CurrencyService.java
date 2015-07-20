@@ -37,8 +37,6 @@ public class CurrencyService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-
-
         Cursor retCurrencyPropertyCursor = this.getContentResolver().query(
                 CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
                 null,
@@ -95,13 +93,11 @@ public class CurrencyService extends IntentService {
                 return;
             }
 
-            getDataFromCurrency(buffer.toString(),retCurrencyPropertyCursor);
+            getDataFromCurrency(buffer.toString());
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
         } finally {
-
-            retCurrencyPropertyCursor.close();
 
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -121,7 +117,7 @@ public class CurrencyService extends IntentService {
     }
 
 
-    private void getDataFromCurrency(String currencyJsonStr,Cursor retCurrencyPropertyCursor) {
+    private void getDataFromCurrency(String currencyJsonStr) {
 
 /*
 
@@ -152,6 +148,15 @@ public class CurrencyService extends IntentService {
                 },.....
 
  */
+
+        Cursor retCurrencyPropertyCursor = this.getContentResolver().query(
+                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
+                null,
+                null,
+                null,
+                null
+        );
+
 
 
         //currency resources information
@@ -242,12 +247,13 @@ public class CurrencyService extends IntentService {
                 this.getContentResolver().bulkInsert(CurrencyContract.CurrencyDataEntry.CONTENT_URI, cvArray);
             }
 
-
+            retCurrencyPropertyCursor.close();
             Log.i(LOG_TAG, "Tamamlandi...");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
-            e.printStackTrace();
+        } finally {
+            retCurrencyPropertyCursor.close();
         }
 
 

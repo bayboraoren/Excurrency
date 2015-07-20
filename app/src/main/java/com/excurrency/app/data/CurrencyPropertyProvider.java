@@ -74,7 +74,7 @@ public class CurrencyPropertyProvider extends ContentProvider {
 
         }
 
-        getContext().getContentResolver().notifyChange(uri, null);
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
 
     }
