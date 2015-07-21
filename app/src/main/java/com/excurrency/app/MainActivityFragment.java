@@ -111,7 +111,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCurrencyAdapter.swapCursor(data);
+            mCurrencyAdapter.swapCursor(data);
     }
 
     @Override

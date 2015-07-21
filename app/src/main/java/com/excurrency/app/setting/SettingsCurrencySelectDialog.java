@@ -71,24 +71,30 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
     @Override
     public CharSequence getSummary() {
 
+        String str = "";
+
         Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(true),
                 null,
                 null,
                 null,
                 null);
 
-        String str = "";
-        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
 
-        do {
-            //TODO currency country
-            str = str + cursor.getString(9) + ", ";
 
-        }while(cursor.moveToNext());
+            cursor.moveToFirst();
 
-        cursor.close();
+            do {
+                //TODO currency country
+                str = str + cursor.getString(9) + ", ";
 
-        str = str.replaceAll("_"," ").toUpperCase();
+            } while (cursor.moveToNext());
+
+            cursor.close();
+
+            str = str.replaceAll("_", " ").toUpperCase();
+
+        }
 
         return str;
     }

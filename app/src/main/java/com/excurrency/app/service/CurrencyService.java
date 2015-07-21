@@ -47,73 +47,74 @@ public class CurrencyService extends IntentService {
                 null
         );
 
+        if(retCurrencyPropertyCursor.getCount()>0) {
 
-        String where = "";
+            String where = "";
 
-        while(retCurrencyPropertyCursor.moveToNext()){
+            while (retCurrencyPropertyCursor.moveToNext()) {
 
-            String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
+                String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
 
-            //"%20%22USDTRY%22","%20%22USDTRY%22"
-            where = where + "\"" + currencyCode + toCurrencyCode + "\"" + ",";
+                //"%20%22USDTRY%22","%20%22USDTRY%22"
+                where = where + "\"" + currencyCode + toCurrencyCode + "\"" + ",";
 
-        }
-
-        where = where.substring(0, where.lastIndexOf(',', where.lastIndexOf(',')));
-
-
-        String CURRENCY_BASE_URL = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20("+where+")&lang=en&env=store://datatables.org/alltableswithkeys&format=json";
-
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-
-
-        Uri builtUri = Uri.parse(CURRENCY_BASE_URL).buildUpon()
-                .build();
-
-        try {
-            URL url = new URL(builtUri.toString());
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                return;
             }
 
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            where = where.substring(0, where.lastIndexOf(',', where.lastIndexOf(',')));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
-            }
 
-            if (buffer.length() == 0) {
-                return;
-            }
+            String CURRENCY_BASE_URL = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(" + where + ")&lang=en&env=store://datatables.org/alltableswithkeys&format=json";
 
-            getDataFromCurrency(buffer.toString());
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
 
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Error ", e);
-        } finally {
 
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                    Log.e(LOG_TAG, "Error closing stream", e);
+            Uri builtUri = Uri.parse(CURRENCY_BASE_URL).buildUpon()
+                    .build();
+
+            try {
+                URL url = new URL(builtUri.toString());
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return;
+                }
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    return;
+                }
+
+                getDataFromCurrency(buffer.toString());
+
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Error ", e);
+            } finally {
+
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
                 }
             }
+
         }
-
-
 
         return;
     }
