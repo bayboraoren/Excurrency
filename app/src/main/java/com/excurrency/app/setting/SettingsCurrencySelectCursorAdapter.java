@@ -84,7 +84,7 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
         if(resourceId!=0) {
 
             viewHolder.currencyFlagImage.setImageDrawable(resources.getDrawable(resourceId));
-            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2));
+            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " ").toUpperCase());
             viewHolder.currencySymbolName.setText(cursor.getString(1));
             boolean b = (cursor.getInt(4) != 0);
             viewHolder.currencyEnabled.setChecked(b);
@@ -127,48 +127,5 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
     }
 
 
-    @Override
-    public Filter getFilter() {
 
-        Filter myFilter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
-                ArrayList<SettingsCurrencySelectModel> tempList=new ArrayList<>();
-                //constraint is the result from text you want to filter against.
-                //objects is your data set you will filter from
-                if(constraint != null && settingsCurrencySelectModelArrayList !=null) {
-                    int length= settingsCurrencySelectModelArrayList.size();
-                    int i=0;
-                    while(i<length){
-                        SettingsCurrencySelectModel item= settingsCurrencySelectModelArrayList.get(i);
-                        //do whatever you wanna do here
-                        //adding result set output array
-
-                        tempList.add(item);
-
-                        i++;
-                    }
-                    //following two lines is very important
-                    //as publish result can only take FilterResults objects
-                    filterResults.values = tempList;
-                    filterResults.count = tempList.size();
-                }
-                return filterResults;
-            }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence contraint, FilterResults results) {
-                settingsCurrencySelectModelArrayList = (ArrayList<SettingsCurrencySelectModel>) results.values;
-                if (results.count > 0) {
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
-            }
-        };
-
-        return myFilter;
-    }
 }
