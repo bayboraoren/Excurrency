@@ -15,5 +15,7 @@
     <string name="pref_schedule_time_ten">10</string>
     <string name="pref_schedule_time_fifteen">15</string>
     <string name="title_activity_detail">Currency Details</string>
+    <string name="ask">Ask</string>
+    <string name="bid">Bid</string>
 
 </resources>

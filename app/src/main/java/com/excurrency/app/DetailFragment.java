@@ -2,6 +2,7 @@ package com.excurrency.app;
 
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,11 @@ import android.widget.TextView;
 
 import com.excurrency.app.data.CurrencyContract;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * Created by bora on 20.07.2015.
  */
@@ -25,15 +31,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     static final String DETAIL_URI = "URI";
     private static final int DETAIL_LOADER = 0;
 
-    private ImageView mIconView;
-    private TextView mFriendlyDateView;
-    private TextView mDateView;
-    private TextView mDescriptionView;
-    private TextView mHighTempView;
-    private TextView mLowTempView;
-    private TextView mHumidityView;
-    private TextView mWindView;
-    private TextView mPressureView;
+    private ImageView mFlagIconView;
+    private TextView mDay;
+    private TextView mMonthAndDate;
+    private TextView mCurrencyCountry;
+    private TextView mCurrencyName;
+    private TextView mCurrencyRate;
+    private TextView mCurrencyCode;
+    private TextView mCurrencyAsk;
+    private TextView mCurrencyBid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,16 +50,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
-        mDateView = (TextView) rootView.findViewById(R.id.detail_date_textview);
-        mFriendlyDateView = (TextView) rootView.findViewById(R.id.detail_day_textview);
-        mDescriptionView = (TextView) rootView.findViewById(R.id.detail_forecast_textview);
-        mHighTempView = (TextView) rootView.findViewById(R.id.detail_high_textview);
-        mLowTempView = (TextView) rootView.findViewById(R.id.detail_low_textview);
-        mHumidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
-        mWindView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
-        mPressureView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
-
+        mFlagIconView = (ImageView) rootView.findViewById(R.id.flag_icon);
+        mDay = (TextView) rootView.findViewById(R.id.day);
+        mMonthAndDate = (TextView) rootView.findViewById(R.id.month_and_date);
+        mCurrencyCountry = (TextView) rootView.findViewById(R.id.currency_country);
+        mCurrencyName = (TextView) rootView.findViewById(R.id.currency_name);
+        mCurrencyRate = (TextView) rootView.findViewById(R.id.currency_rate);
+        mCurrencyCode = (TextView) rootView.findViewById(R.id.currency_code);
+        mCurrencyAsk = (TextView) rootView.findViewById(R.id.currency_ask);
+        mCurrencyBid = (TextView) rootView.findViewById(R.id.currency_bid);
 
         return rootView;
 
@@ -92,7 +97,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         final int resourceId = resources.getIdentifier(cursor.getString(currencyCountryIndex), "drawable",
                 getActivity().getPackageName());
 
-        mIconView.setImageResource(resourceId);
+        mFlagIconView.setImageResource(resourceId);
+
+        Calendar calendar = Calendar.getInstance();
+        String calendarStr = String.format("%1$tA", calendar);
+
+        mDay.setText(calendarStr);
+        mMonthAndDate.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + ", " + calendar.get(Calendar.DATE));
+
+        mCurrencyCountry.setText(cursor.getString(9).replaceAll("_", " ").toUpperCase());
+        mCurrencyName.setText(cursor.getString(10));
+
+        mCurrencyRate.setText(cursor.getString(3)+ " ");
+        mCurrencyCode.setText(cursor.getString(8));
+
+        mCurrencyAsk.setText(getString(R.string.ask) + " " + cursor.getString(5));
+        mCurrencyBid.setText(getString(R.string.bid) + " " + cursor.getString(6));
+
+
 
         cursor.close();
     }

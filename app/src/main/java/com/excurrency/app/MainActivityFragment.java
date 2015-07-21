@@ -19,8 +19,6 @@ import android.widget.ListView;
 import com.excurrency.app.data.CurrencyContract;
 import com.excurrency.app.service.CurrencyService;
 
-import java.util.Currency;
-
 
 /**
  * A placeholder fragment containing a simple view.
