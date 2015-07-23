@@ -2,7 +2,6 @@ package com.excurrency.app;
 
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.excurrency.app.data.CurrencyContract;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -90,37 +87,42 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        //TODO repeating, put utils
-        cursor.moveToFirst();
-        Resources resources = getActivity().getResources();
-        int currencyCountryIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
-        final int resourceId = resources.getIdentifier(cursor.getString(currencyCountryIndex), "drawable",
-                getActivity().getPackageName());
+        if(cursor.getCount()>0) {
+            //TODO repeating, put utils
+            cursor.moveToFirst();
+            Resources resources = getActivity().getResources();
+            int currencyCountryIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
+            final int resourceId = resources.getIdentifier(cursor.getString(currencyCountryIndex), "drawable",
+                    getActivity().getPackageName());
 
-        mFlagIconView.setImageResource(resourceId);
+            mFlagIconView.setImageResource(resourceId);
 
-        Calendar calendar = Calendar.getInstance();
-        String calendarStr = String.format("%1$tA", calendar);
+            Calendar calendar = Calendar.getInstance();
+            String calendarStr = String.format("%1$tA", calendar);
 
-        mDay.setText(calendarStr);
-        mMonthAndDate.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + ", " + calendar.get(Calendar.DATE));
+            mDay.setText(calendarStr);
+            mMonthAndDate.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + ", " + calendar.get(Calendar.DATE));
 
-        mCurrencyCountry.setText(cursor.getString(9).replaceAll("_", " ").toUpperCase());
-        mCurrencyName.setText(cursor.getString(10));
+            mCurrencyCountry.setText(cursor.getString(9).replaceAll("_", " ").toUpperCase());
+            mCurrencyName.setText(cursor.getString(10));
 
-        mCurrencyRate.setText(cursor.getString(3)+ " ");
-        mCurrencyCode.setText(cursor.getString(8));
+            mCurrencyRate.setText(cursor.getString(3) + " ");
+            mCurrencyCode.setText(cursor.getString(8));
 
-        mCurrencyAsk.setText(getString(R.string.ask) + " " + cursor.getString(5));
-        mCurrencyBid.setText(getString(R.string.bid) + " " + cursor.getString(6));
+            mCurrencyAsk.setText(getString(R.string.ask) + " " + cursor.getString(5));
+            mCurrencyBid.setText(getString(R.string.bid) + " " + cursor.getString(6));
+        }
 
-
-
-        cursor.close();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("detailUri",detailUri);
     }
 }
