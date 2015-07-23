@@ -5,11 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.excurrency.app.DateUtil;
+import com.excurrency.app.R;
 import com.excurrency.app.data.CurrencyContract;
 
 import org.json.JSONArray;
@@ -54,6 +57,12 @@ public class CurrencyService extends IntentService {
             while (retCurrencyPropertyCursor.moveToNext()) {
 
                 String currencyCode = retCurrencyPropertyCursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
+
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                toCurrencyCode = prefs.getString(getApplicationContext().getString(R.string.pref_currency_convert_to_key), getApplicationContext().getString(R.string.pref_currency_convert_to_default));
+
+
 
                 //"%20%22USDTRY%22","%20%22USDTRY%22"
                 where = where + "\"" + currencyCode + toCurrencyCode + "\"" + ",";

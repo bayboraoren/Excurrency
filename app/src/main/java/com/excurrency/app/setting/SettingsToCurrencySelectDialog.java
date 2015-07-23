@@ -2,9 +2,11 @@ package com.excurrency.app.setting;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.DialogPreference;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,7 @@ public class SettingsToCurrencySelectDialog extends DialogPreference{
 
         ListView list = (ListView) view.findViewById(R.id.settings_to_currency_select_list);
 
-        arrAdapter = new SettingsToCurrencySelectCursorAdapter(getContext(), cursor, 0);
+        arrAdapter = new SettingsToCurrencySelectCursorAdapter(getContext(), cursor, 0,this);
 
         list.setAdapter(arrAdapter);
     }
@@ -66,32 +68,13 @@ public class SettingsToCurrencySelectDialog extends DialogPreference{
     @Override
     public CharSequence getSummary() {
 
-        String str = "";
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String currencyToValue = prefs.getString(getContext().getString(R.string.pref_currency_convert_to_key), getContext().getString(R.string.pref_currency_convert_to_default));
+        currencyToValue = currencyToValue.toUpperCase();
+        String currencyCountryToValue = prefs.getString(getContext().getString(R.string.pref_currency_country_convert_to_key), getContext().getString(R.string.pref_currency_country_convert_to_default));
+        currencyCountryToValue = currencyCountryToValue.replaceAll("_"," ").toUpperCase();
 
-        Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(true),
-                null,
-                null,
-                null,
-                null);
-
-        if(cursor.getCount()>0) {
-
-
-            cursor.moveToFirst();
-
-            do {
-                //TODO currency country
-                str = str + cursor.getString(9) + ", ";
-
-            } while (cursor.moveToNext());
-
-            cursor.close();
-
-            str = str.replaceAll("_", " ").toUpperCase();
-
-        }
-
-        return str;
+        return currencyCountryToValue + " (" + currencyToValue + ")";
     }
 
 }

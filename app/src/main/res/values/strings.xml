@@ -9,6 +9,12 @@
     <string name="pref_schedule_time_label">Schedule in minutes</string>
     <string name="pref_schedule_time_key">schedule</string>
 
+    <string name="pref_currency_convert_to_key">currency_convert_to</string>
+    <string name="pref_currency_convert_to_default">TRY</string>
+
+    <string name="pref_currency_country_convert_to_key">currency_country_convert_to</string>
+    <string name="pref_currency_country_convert_to_default">turkey</string>
+
 
     <string name="pref_schedule_time_one">1</string>
     <string name="pref_schedule_time_five">5</string>

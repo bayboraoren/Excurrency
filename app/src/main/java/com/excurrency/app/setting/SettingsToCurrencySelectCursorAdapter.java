@@ -1,15 +1,15 @@
 package com.excurrency.app.setting;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -18,22 +18,17 @@ import android.widget.TextView;
 import com.excurrency.app.R;
 import com.excurrency.app.data.CurrencyContract;
 
-import java.util.ArrayList;
-
 /**
  * Created by bora on 01.07.2015.
  */
 public class SettingsToCurrencySelectCursorAdapter extends CursorAdapter implements Filterable{
 
     public static final String LOG_TAG = SettingsToCurrencySelectCursorAdapter.class.getSimpleName();
+    private SettingsToCurrencySelectDialog dialog=null;
 
-
-    // declaring our ArrayList of items
-    public ArrayList<SettingsCurrencySelectModel> settingsCurrencySelectModelArrayList;
-
-
-    public SettingsToCurrencySelectCursorAdapter(Context context, Cursor c, int flags) {
+    public SettingsToCurrencySelectCursorAdapter(Context context, Cursor c, int flags,SettingsToCurrencySelectDialog dialog) {
         super(context, c, flags);
+        this.dialog = dialog;
     }
 
 
@@ -74,20 +69,32 @@ public class SettingsToCurrencySelectCursorAdapter extends CursorAdapter impleme
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-
         Resources resources = context.getResources();
         final int resourceId = resources.getIdentifier(cursor.getString(2), "drawable",
                 context.getPackageName());
 
-        final String id = cursor.getString(0);
+        final String currencyCode = cursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE);
+        final String currencyCountry = cursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_COUNTRY);
 
-        if(resourceId!=0) {
+
+        //get currency convert to shared preference
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String currencyToValue = prefs.getString(context.getString(R.string.pref_currency_convert_to_key), context.getString(R.string.pref_currency_convert_to_default));
+
+        if (resourceId!=0) {
+
+            //change it to selected
+            if (currencyToValue.equals(cursor.getString(CurrencyContract.CurrencyPropertyEntry.INDEX_COLUMN_CURRENCY_PROPERTY_CODE))) {
+                viewHolder.currencyEnabled.setChecked(true);
+            } else {
+                viewHolder.currencyEnabled.setChecked(false);
+            }
 
             viewHolder.currencyFlagImage.setImageDrawable(resources.getDrawable(resourceId));
-            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " "));
+            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " ").toUpperCase());
             viewHolder.currencySymbolName.setText(cursor.getString(1));
-            boolean b = (cursor.getInt(4) != 0);
-            viewHolder.currencyEnabled.setChecked(b);
+
+
 
             viewHolder.currencyEnabled.setOnClickListener(new View.OnClickListener() {
 
@@ -95,26 +102,38 @@ public class SettingsToCurrencySelectCursorAdapter extends CursorAdapter impleme
                 public void onClick(View v) {
                     if (((RadioButton) v).isChecked()) {
 
-                        ContentValues contentValues = new ContentValues();
+                        /*ContentValues contentValues = new ContentValues();
                         contentValues.put(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_ENABLED, true);
 
                         String where = CurrencyContract.CurrencyPropertyEntry._ID + " = ?";
 
                         context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(true),
-                                contentValues, where, new String[]{id});
+                                contentValues, where, new String[]{id});*/
+
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(context.getString(R.string.pref_currency_convert_to_key),currencyCode);
+                        editor.putString(context.getString(R.string.pref_currency_country_convert_to_key),currencyCountry);
+                        editor.commit();
+
+                        dialog.getDialog().dismiss();
 
 
                     } else {
 
-                        ContentValues contentValues = new ContentValues();
+                        /*ContentValues contentValues = new ContentValues();
                         contentValues.put(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_ENABLED, false);
 
                         String where = CurrencyContract.CurrencyPropertyEntry._ID + " = ?";
 
                         context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(true),
-                                contentValues, where, new String[]{id});
+                                contentValues, where, new String[]{id});*/
+
+                        dialog.getDialog().dismiss();
 
                     }
+
+
                 }
 
             });

@@ -1,8 +1,10 @@
 package com.excurrency.app;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,15 +49,20 @@ public class CurrencyAdapter extends CursorAdapter {
 
 
             int currencyCountryNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY);
-            viewHolder.currencyCountryName.setText(cursor.getString(1) + " " + cursor.getString(currencyCountryNameIndex).replaceAll("_"," ").toUpperCase());
+            viewHolder.currencyCountryName.setText(cursor.getString(currencyCountryNameIndex).replaceAll("_", " ").toUpperCase());
 
             //int currencyCodeIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE);
             int currencyNameIndex = cursor.getColumnIndex(CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_NAME);
-            viewHolder.currencyCode.setText(cursor.getString(currencyNameIndex));
+            viewHolder.currencyCode.setText(cursor.getString(currencyNameIndex) + " (" + cursor.getString(8) +")");
 
             int currencyRateIndex = cursor.getColumnIndex(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE);
             viewHolder.currencyPrice.setText(cursor.getString(currencyRateIndex));
 
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            String currencyConvertTo = prefs.getString(context.getString(R.string.pref_currency_convert_to_key), context.getString(R.string.pref_currency_convert_to_default));
+
+            viewHolder.currencyConvertTo.setText(currencyConvertTo);
 
 
         }

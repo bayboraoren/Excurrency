@@ -1,9 +1,11 @@
 package com.excurrency.app;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -107,7 +109,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mCurrencyName.setText(cursor.getString(10));
 
             mCurrencyRate.setText(cursor.getString(3) + " ");
-            mCurrencyCode.setText(cursor.getString(8));
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String toCurrencyCode = prefs.getString(getActivity().getString(R.string.pref_currency_convert_to_key), getActivity().getString(R.string.pref_currency_convert_to_default));
+
+            mCurrencyCode.setText(toCurrencyCode);
 
             mCurrencyAsk.setText(getString(R.string.ask) + " " + cursor.getString(5));
             mCurrencyBid.setText(getString(R.string.bid) + " " + cursor.getString(6));

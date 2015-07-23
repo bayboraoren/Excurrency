@@ -84,12 +84,11 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
         if(resourceId!=0) {
 
             viewHolder.currencyFlagImage.setImageDrawable(resources.getDrawable(resourceId));
-            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " "));
+            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " ").toUpperCase());
             viewHolder.currencySymbolName.setText(cursor.getString(1));
             boolean b = (cursor.getInt(4) != 0);
             viewHolder.currencyEnabled.setChecked(b);
 
-            viewHolder.currencyEnabled.setActivated(false);
             viewHolder.currencyEnabled.setOnClickListener(new View.OnClickListener() {
 
                 @Override
