@@ -3,7 +3,14 @@
 
     <com.excurrency.app.setting.SettingsCurrencySelectDialog
         android:summary=""
-        android:title="@string/select_currencies" />
+        android:title="@string/select_currencies"
+        android:key="from_currency"/>
+
+    <com.excurrency.app.setting.SettingsToCurrencySelectDialog
+        android:summary=""
+        android:title="@string/convert_to_currencies"
+        key="to_currency"/>
+
 
     <ListPreference
         android:title="@string/pref_schedule_time_label"
@@ -13,8 +20,5 @@
         android:entries="@array/pref_schedule_time_values" />
 
 
-    <com.excurrency.app.setting.SettingsCurrencySelectDialog
-        android:summary=""
-        android:title="@string/select_currencies" />
 
 </PreferenceScreen>

@@ -17,5 +17,6 @@
     <string name="title_activity_detail">Currency Details</string>
     <string name="ask">Ask</string>
     <string name="bid">Bid</string>
+    <string name="convert_to_currencies">Convert to</string>
 
 </resources>

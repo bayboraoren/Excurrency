@@ -3,12 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/from_currency">
+    android:id="@+id/to_currency">
 
    <ListView
-       android:id="@+id/settings_currency_select_list"
+       android:id="@+id/settings_to_currency_select_list"
        android:layout_width="fill_parent"
-       android:layout_height="fill_parent"
-       />
+       android:layout_height="fill_parent"/>
 
 </LinearLayout>
