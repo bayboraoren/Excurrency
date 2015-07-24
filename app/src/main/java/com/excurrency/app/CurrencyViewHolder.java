@@ -14,7 +14,6 @@ public class CurrencyViewHolder {
     TextView currencyCountryName; //currency code description ex:United States Dollar
     TextView currencyPrice; // currency value in now
     ImageView currencyUpOrDownImage; //increase or decrease currency
-    TextView currencyConvertTo;
 
 
     public CurrencyViewHolder(View view) {
@@ -22,8 +21,6 @@ public class CurrencyViewHolder {
         currencyCode = (TextView)view.findViewById(R.id.currency_code);
         currencyPrice = (TextView)view.findViewById(R.id.currency_price);
         currencyCountryName = (TextView)view.findViewById(R.id.currency_country_name);
-        currencyUpOrDownImage = (ImageView)view.findViewById(R.id.currency_upOrDown_image);
-        currencyConvertTo = (TextView)view.findViewById(R.id.currency_convert_to);
     }
 
 

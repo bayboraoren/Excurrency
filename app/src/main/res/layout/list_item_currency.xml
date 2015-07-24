@@ -26,18 +26,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/currency_country_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="20sp"/>
-
-        <TextView
             android:id="@+id/currency_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:textSize="12dp"/>
+            android:textAppearance="?android:textAppearanceLarge"/>
+
+
+        <TextView
+            android:id="@+id/currency_country_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="12sp"/>
 
     </LinearLayout>
 
@@ -57,18 +58,13 @@
             android:textAppearance="?android:textAppearanceLarge"/>
 
         <TextView
-            android:id="@+id/currency_convert_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:fontFamily="sans-serif-condensed"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:textAppearance="?android:textAppearanceSmall"
+            android:text=" "/>
 
-        <ImageView
-            android:id="@+id/currency_upOrDown_image"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>
