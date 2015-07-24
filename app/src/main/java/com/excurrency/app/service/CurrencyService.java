@@ -43,7 +43,7 @@ public class CurrencyService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         Cursor retCurrencyPropertyCursor = this.getContentResolver().query(
-                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
+                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(),
                 null,
                 null,
                 null,
@@ -89,7 +89,7 @@ public class CurrencyService extends IntentService {
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder builder = new StringBuilder();
                 if (inputStream == null) {
                     return;
                 }
@@ -98,14 +98,14 @@ public class CurrencyService extends IntentService {
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    builder.append(line).append("\n");
                 }
 
-                if (buffer.length() == 0) {
+                if (builder.length() == 0) {
                     return;
                 }
 
-                getDataFromCurrency(buffer.toString());
+                getDataFromCurrency(builder.toString());
 
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
@@ -125,7 +125,6 @@ public class CurrencyService extends IntentService {
 
         }
 
-        return;
     }
 
 
@@ -162,7 +161,7 @@ public class CurrencyService extends IntentService {
  */
 
         Cursor retCurrencyPropertyCursor = this.getContentResolver().query(
-                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(true),
+                CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListEnabledUri(),
                 null,
                 null,
                 null,
@@ -189,7 +188,6 @@ public class CurrencyService extends IntentService {
         String name;
         String rate;
         long date;
-        String time;
         String ask;
         String bid;
 
@@ -202,7 +200,7 @@ public class CurrencyService extends IntentService {
             JSONObject results = query.getJSONObject(CURRENCY_RESULTS);
             JSONArray rateArray = results.getJSONArray(CURRENCY_RATE_ARRAY);
 
-            Vector<ContentValues> currencyVector = new Vector<ContentValues>(rateArray.length());
+            Vector<ContentValues> currencyVector = new Vector<>(rateArray.length());
 
 
             for (int counter = 0; counter < rateArray.length(); counter++) {
@@ -218,7 +216,7 @@ public class CurrencyService extends IntentService {
                 bid = rateObject.getString(CURRENCY_BID);
 
 
-                long currencyPropertyId = 0;
+                long currencyPropertyId;
 
                 retCurrencyPropertyCursor.moveToFirst();
                 do{

@@ -1,7 +1,5 @@
 package com.excurrency.app.setting;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by bora on 01.07.2015.
  */

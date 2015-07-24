@@ -3,13 +3,11 @@
 
     <com.excurrency.app.setting.SettingsCurrencySelectDialog
         android:summary=""
-        android:title="@string/select_currencies"
-        android:key="from_currency"/>
+        android:title="@string/select_currencies"/>
 
     <com.excurrency.app.setting.SettingsToCurrencySelectDialog
         android:summary=""
-        android:title="@string/convert_to_currencies"
-        key="to_currency"/>
+        android:title="@string/convert_to_currencies"/>
 
 
     <ListPreference

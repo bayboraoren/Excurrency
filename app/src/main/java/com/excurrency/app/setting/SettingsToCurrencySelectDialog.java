@@ -21,7 +21,6 @@ import com.excurrency.app.data.CurrencyContract;
  */
 public class SettingsToCurrencySelectDialog extends DialogPreference{
 
-    private SettingsToCurrencySelectCursorAdapter arrAdapter;
 
     public SettingsToCurrencySelectDialog(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,7 +32,7 @@ public class SettingsToCurrencySelectDialog extends DialogPreference{
 
         ListView list = (ListView) view.findViewById(R.id.settings_to_currency_select_list);
 
-        arrAdapter = new SettingsToCurrencySelectCursorAdapter(getContext(), cursor, 0,this);
+        SettingsToCurrencySelectCursorAdapter arrAdapter = new SettingsToCurrencySelectCursorAdapter(getContext(), cursor, 0,this);
 
         list.setAdapter(arrAdapter);
     }
@@ -58,7 +57,7 @@ public class SettingsToCurrencySelectDialog extends DialogPreference{
         super.onBindDialogView(view);
 
         String sortOrder = CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY + " ASC";
-        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri(true);
+        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri();
         Cursor cursor = getContext().getContentResolver().query(currencyListUri,null,null,null,sortOrder);
 
         getCurrencies(cursor, view);

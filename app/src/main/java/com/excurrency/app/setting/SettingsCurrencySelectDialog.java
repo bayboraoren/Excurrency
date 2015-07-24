@@ -5,13 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.DialogPreference;
-import android.support.v4.content.CursorLoader;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.excurrency.app.R;
@@ -23,7 +19,7 @@ import com.excurrency.app.data.CurrencyContract;
  */
 public class SettingsCurrencySelectDialog extends DialogPreference{
 
-    private SettingsCurrencySelectCursorAdapter arrAdapter;
+
 
     public SettingsCurrencySelectDialog(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,9 +30,10 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
     private void getCurrencies(Cursor cursor,View view){
 
+
         ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
 
-        arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0);
+        SettingsCurrencySelectCursorAdapter arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0);
 
         list.setAdapter(arrAdapter);
     }
@@ -61,7 +58,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
         super.onBindDialogView(view);
 
         String sortOrder = CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY + " ASC";
-        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri(true);
+        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri();
         Cursor cursor = getContext().getContentResolver().query(currencyListUri,null,null,null,sortOrder);
 
         getCurrencies(cursor, view);
@@ -73,7 +70,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
         String str = "";
 
-        Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(true),
+        Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(),
                 null,
                 null,
                 null,

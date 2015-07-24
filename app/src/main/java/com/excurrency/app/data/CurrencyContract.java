@@ -38,16 +38,16 @@ public class CurrencyContract {
 
 
 
-        public static Uri buildCurrencyPropertyListUri(boolean enabled) {
+        public static Uri buildCurrencyPropertyListUri() {
             return CONTENT_URI.buildUpon().build();
         }
 
-        public static Uri buildCurrencyPropertyListEnabledUri(boolean enabled) {
+        public static Uri buildCurrencyPropertyListEnabledUri() {
             return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
         }
 
 
-        public static Uri buildCurrencyPropertyUpdateToggleUri(boolean enabled) {
+        public static Uri buildCurrencyPropertyUpdateToggleUri() {
             return CONTENT_URI.buildUpon().build();
         }
 
@@ -82,7 +82,7 @@ public class CurrencyContract {
         public static final int INDEX_COLUMN_CURRENCY_DATA_ASK = 5;
         public static final int INDEX_COLUMN_CURRENCY_DATA_BID = 6;
 
-        public static Uri buildCurrencyDataBySelectedCurrencyPropertyUri(boolean enabled) {
+        public static Uri buildCurrencyDataBySelectedCurrencyPropertyUri() {
             return CONTENT_URI.buildUpon().appendPath("ENABLED").build();
         }
 

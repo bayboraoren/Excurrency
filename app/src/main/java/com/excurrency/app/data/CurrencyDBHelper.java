@@ -1,6 +1,5 @@
 package com.excurrency.app.data;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,7 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.excurrency.app.R;
-import com.excurrency.app.data.CurrencyContract.*;
+import com.excurrency.app.data.CurrencyContract.CurrencyDataEntry;
+import com.excurrency.app.data.CurrencyContract.CurrencyPropertyEntry;
 
 import java.io.BufferedReader;
 import java.io.IOException;

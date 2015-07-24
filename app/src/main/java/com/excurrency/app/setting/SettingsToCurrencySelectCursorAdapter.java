@@ -91,7 +91,7 @@ public class SettingsToCurrencySelectCursorAdapter extends CursorAdapter impleme
             }
 
             viewHolder.currencyFlagImage.setImageDrawable(resources.getDrawable(resourceId));
-            viewHolder.currencyCountryName.setText(cursor.getInt(0) + " " + cursor.getString(2).replaceAll("_", " ").toUpperCase());
+            viewHolder.currencyCountryName.setText(cursor.getString(2).replaceAll("_", " ").toUpperCase());
             viewHolder.currencySymbolName.setText(cursor.getString(1));
 
 
