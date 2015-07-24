@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.excurrency.app.R;
+import com.excurrency.app.Utils;
 import com.excurrency.app.data.CurrencyContract;
 
 /**
@@ -113,11 +114,11 @@ public class SettingsToCurrencySelectCursorAdapter extends CursorAdapter impleme
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString(context.getString(R.string.pref_currency_convert_to_key),currencyCode);
-                        editor.putString(context.getString(R.string.pref_currency_country_convert_to_key),currencyCountry);
+                        editor.putString(context.getString(R.string.pref_currency_country_convert_to_key), currencyCountry);
                         editor.commit();
 
                         dialog.getDialog().dismiss();
-
+                        dialog.setSummary(Utils.getSummaryForCurrencyConvertTo(context));
 
                     } else {
 

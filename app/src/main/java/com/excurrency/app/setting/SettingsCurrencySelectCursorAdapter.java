@@ -15,9 +15,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.excurrency.app.R;
+import com.excurrency.app.Utils;
 import com.excurrency.app.data.CurrencyContract;
-
-import java.util.ArrayList;
 
 /**
  * Created by bora on 01.07.2015.
@@ -25,14 +24,12 @@ import java.util.ArrayList;
 public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implements Filterable{
 
     public static final String LOG_TAG = SettingsCurrencySelectCursorAdapter.class.getSimpleName();
+    private SettingsCurrencySelectDialog dialog=null;
 
 
-    // declaring our ArrayList of items
-    public ArrayList<SettingsCurrencySelectModel> settingsCurrencySelectModelArrayList;
-
-
-    public SettingsCurrencySelectCursorAdapter(Context context, Cursor c, int flags) {
+    public SettingsCurrencySelectCursorAdapter(Context context, Cursor c, int flags,SettingsCurrencySelectDialog dialog) {
         super(context, c, flags);
+        this.dialog = dialog;
     }
 
 
@@ -102,6 +99,8 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
                         context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(),
                                 contentValues, where, new String[]{id});
 
+                        dialog.setSummary(Utils.getSummaryForSelectCurrencies(context));
+
 
                     } else {
 
@@ -113,6 +112,8 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
                         context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(),
                                 contentValues, where, new String[]{id});
 
+
+                        dialog.setSummary(Utils.getSummaryForSelectCurrencies(context));
                     }
                 }
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.excurrency.app.R;
+import com.excurrency.app.Utils;
 import com.excurrency.app.data.CurrencyContract;
 
 /**
@@ -33,7 +34,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
         ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
 
-        SettingsCurrencySelectCursorAdapter arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0);
+        SettingsCurrencySelectCursorAdapter arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0,this);
 
         list.setAdapter(arrAdapter);
     }
@@ -67,33 +68,7 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
     @Override
     public CharSequence getSummary() {
-
-        String str = "";
-
-        Cursor cursor = getContext().getContentResolver().query(CurrencyContract.CurrencyDataEntry.buildCurrencyDataBySelectedCurrencyPropertyUri(),
-                null,
-                null,
-                null,
-                null);
-
-        if(cursor.getCount()>0) {
-
-
-            cursor.moveToFirst();
-
-            do {
-                //TODO currency country
-                str = str + cursor.getString(9) + ", ";
-
-            } while (cursor.moveToNext());
-
-            cursor.close();
-
-            str = str.replaceAll("_", " ").toUpperCase();
-
-        }
-
-        return str;
+        return Utils.getSummaryForSelectCurrencies(getContext());
     }
 
 }

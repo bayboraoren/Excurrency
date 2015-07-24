@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.excurrency.app.R;
+import com.excurrency.app.Utils;
 import com.excurrency.app.data.CurrencyContract;
 
 /**
@@ -66,14 +67,7 @@ public class SettingsToCurrencySelectDialog extends DialogPreference{
 
     @Override
     public CharSequence getSummary() {
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String currencyToValue = prefs.getString(getContext().getString(R.string.pref_currency_convert_to_key), getContext().getString(R.string.pref_currency_convert_to_default));
-        currencyToValue = currencyToValue.toUpperCase();
-        String currencyCountryToValue = prefs.getString(getContext().getString(R.string.pref_currency_country_convert_to_key), getContext().getString(R.string.pref_currency_country_convert_to_default));
-        currencyCountryToValue = currencyCountryToValue.replaceAll("_"," ").toUpperCase();
-
-        return currencyCountryToValue + " (" + currencyToValue + ")";
+        return Utils.getSummaryForCurrencyConvertTo(getContext());
     }
 
 }
