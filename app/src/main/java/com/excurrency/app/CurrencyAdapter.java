@@ -62,9 +62,8 @@ public class CurrencyAdapter extends CursorAdapter {
             viewHolder.currencyPrice.setText(cursor.getString(currencyRateIndex) + " " + currencyConvertTo);
 
 
-
-
-
         }
     }
+
+
 }

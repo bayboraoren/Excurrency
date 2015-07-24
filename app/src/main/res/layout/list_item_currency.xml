@@ -4,8 +4,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/touch_selector">
 
     <FrameLayout
         android:layout_width="60dp"

@@ -10,6 +10,7 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/listview_currency"/>
+        android:id="@+id/listview_currency"
+        android:divider="@null" />
 
 </RelativeLayout>

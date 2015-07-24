@@ -1,6 +1,7 @@
 package com.excurrency.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,12 +10,27 @@ import android.view.MenuItem;
 import com.excurrency.app.setting.SettingsActivity;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MainActivityFragment.Callback{
+
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (findViewById(R.id.currency_detail_container) != null) {
+            if (savedInstanceState == null) {
+
+                mTwoPane = true;
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.currency_detail_container, new DetailFragment())
+                        .commit();
+            }
+        }else{
+            mTwoPane = false;
+        }
 
     }
 
@@ -50,6 +66,28 @@ public class MainActivity extends ActionBarActivity {
 
         if ( null != ma ) {
             ma.onCurrencyPropertyChanged();
+        }
+    }
+
+
+    @Override
+    public void onItemSelected(Uri contentUri) {
+        if (mTwoPane) {
+
+            Bundle args = new Bundle();
+            args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.currency_detail_container, fragment)
+                    .commit();
+
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class)
+                    .setData(contentUri);
+            startActivity(intent);
         }
     }
 }

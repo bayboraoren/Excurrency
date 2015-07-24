@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -23,18 +24,27 @@ import com.excurrency.app.service.CurrencyService;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     CurrencyAdapter mCurrencyAdapter;
     private static final int CURRENCY_LOADER = 0;
+    private int mPosition = ListView.INVALID_POSITION;
+    private static final String SELECTED_KEY = "selected_position";
+    private ListView mListView;
 
     public MainActivityFragment() {
 
+
+    }
+
+
+    public interface Callback {
+        void onItemSelected(Uri dateUri);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(CURRENCY_LOADER , null, this);
+        getLoaderManager().initLoader(CURRENCY_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -42,23 +52,36 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mCurrencyAdapter = new CurrencyAdapter(getActivity(),null,0);
+        mCurrencyAdapter = new CurrencyAdapter(getActivity(), null, 0);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_currency);
-        listView.setAdapter(mCurrencyAdapter);
+        mListView = (ListView) rootView.findViewById(R.id.listview_currency);
+        mListView.setAdapter(mCurrencyAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+                    /*Intent intent = new Intent(getActivity(), DetailActivity.class)
                             .setData(CurrencyContract.CurrencyDataEntry.buildCurrencyDataById(cursor.getString(0)));
-                    startActivity(intent);
+                    startActivity(intent);*/
+
+                    ((Callback) getActivity())
+                            .onItemSelected(CurrencyContract.CurrencyDataEntry.buildCurrencyDataById(cursor.getString(0)));
+
                 }
+
+
+                mPosition = position;
             }
         });
+
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
 
 
         return rootView;
@@ -73,13 +96,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         setSchedule(Integer.parseInt(Utils.getSchedule(getActivity())));
     }
 
-    private void setSchedule(int selectedScheduleTime){
+    private void setSchedule(int selectedScheduleTime) {
 
-        AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(getActivity(),CurrencyService.AlarmReceiver.class);
+        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(getActivity(), CurrencyService.AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         //20 minustes 1000 * 60 * 20
-        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * selectedScheduleTime , pi); // Millisec * Second * Minute
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 1000 * 60 * selectedScheduleTime, pi); // Millisec * Second * Minute
 
     }
 
@@ -89,7 +112,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
 
-    void onCurrencyPropertyChanged( ) {
+    void onCurrencyPropertyChanged() {
         setSchedule(Integer.parseInt(Utils.getSchedule(getActivity())));
         updateCurrencyList();
         getLoaderManager().restartLoader(CURRENCY_LOADER, null, this);
@@ -109,7 +132,12 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            mCurrencyAdapter.swapCursor(data);
+        mCurrencyAdapter.swapCursor(data);
+        if (mPosition != ListView.INVALID_POSITION) {
+            // If we don't need to restart the loader, and there's a desired position to restore
+            // to, do so now.
+            mListView.smoothScrollToPosition(mPosition);
+        }
     }
 
     @Override
@@ -118,6 +146,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
 
-
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        super.onSaveInstanceState(outState);
+    }
 }
