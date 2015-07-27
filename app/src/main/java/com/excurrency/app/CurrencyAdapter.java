@@ -59,7 +59,12 @@ public class CurrencyAdapter extends CursorAdapter {
             String currencyConvertTo = prefs.getString(context.getString(R.string.pref_currency_convert_to_key), context.getString(R.string.pref_currency_convert_to_default));
 
             int currencyRateIndex = cursor.getColumnIndex(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE);
-            viewHolder.currencyPrice.setText(cursor.getString(currencyRateIndex) + " " + currencyConvertTo);
+
+            float f = Float.parseFloat(cursor.getString(currencyRateIndex));
+            String currencyRate = String.format("%.02f", f);
+
+
+            viewHolder.currencyPrice.setText(currencyRate + " " + currencyConvertTo);
 
 
         }
