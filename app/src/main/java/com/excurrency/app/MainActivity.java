@@ -20,9 +20,10 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         setContentView(R.layout.activity_main);
 
         if (findViewById(R.id.currency_detail_container) != null) {
-            if (savedInstanceState == null) {
 
-                mTwoPane = true;
+            mTwoPane = true;
+
+            if (savedInstanceState == null) {
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.currency_detail_container, new DetailFragment())
@@ -67,6 +68,13 @@ public class MainActivity extends ActionBarActivity implements MainActivityFragm
         if ( null != ma ) {
             ma.onCurrencyPropertyChanged();
         }
+
+        DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentById(R.id.currency_detail_container);
+        if ( null != df ) {
+            df.onCurrencyPropertyChanged();
+        }
+
+
     }
 
 

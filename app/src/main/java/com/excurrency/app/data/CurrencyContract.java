@@ -87,7 +87,16 @@ public class CurrencyContract {
         }
 
         public static Uri buildCurrencyDataById(String id) {
-            return ContentUris.withAppendedId(CurrencyContract.CurrencyDataEntry.CONTENT_URI,Integer.parseInt(id));
+            return ContentUris.withAppendedId(CurrencyContract.CurrencyDataEntry.CONTENT_URI, Integer.parseInt(id));
+        }
+
+        public static Uri buildCurrencyDataByCode(String code) {
+            return CONTENT_URI.buildUpon().appendPath(code).build();
+        }
+
+
+        public static long getIdFromUri(Uri uri){
+            return ContentUris.parseId(uri);
         }
 
 

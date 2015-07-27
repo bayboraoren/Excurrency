@@ -61,7 +61,7 @@ public class CurrencyAdapter extends CursorAdapter {
             int currencyRateIndex = cursor.getColumnIndex(CurrencyContract.CurrencyDataEntry.COLUMN_CURRENCY_RATE);
 
             float f = Float.parseFloat(cursor.getString(currencyRateIndex));
-            String currencyRate = String.format("%.02f", f);
+            String currencyRate = String.format("%.03f", f);
 
 
             viewHolder.currencyPrice.setText(currencyRate + " " + currencyConvertTo);

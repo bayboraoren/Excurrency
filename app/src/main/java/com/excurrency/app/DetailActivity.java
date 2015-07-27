@@ -10,20 +10,22 @@ public class DetailActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
 
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
+        if (savedInstanceState == null) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
 
-        DetailFragment fragment = new DetailFragment();
-        fragment.setArguments(arguments);
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(arguments);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.currency_detail_container, fragment)
-                .commit();
-
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.currency_detail_container, fragment)
+                    .commit();
+        }
 
     }
 

@@ -9,7 +9,7 @@
 
 
     <fragment
-        android:id="@+id/fragment_forecast"
+        android:id="@+id/main_activity_fragment"
         android:name="com.excurrency.app.MainActivityFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"

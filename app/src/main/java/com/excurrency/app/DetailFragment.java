@@ -121,6 +121,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     }
 
+    void onCurrencyPropertyChanged() {
+        if(detailUri!=null) {
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
+    }
+
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
@@ -131,4 +138,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onSaveInstanceState(outState);
         outState.putParcelable("detailUri",detailUri);
     }
+
+
+
 }

@@ -12,7 +12,7 @@ import android.net.Uri;
 /**
  * Created by bora on 23.06.2015.
  */
-public class CurrencyPropertyProvider extends ContentProvider {
+public class CurrencyProvider extends ContentProvider {
 
     private CurrencyDBHelper mCurrencyDbHelper;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -22,6 +22,7 @@ public class CurrencyPropertyProvider extends ContentProvider {
     static final int CURRENCY_DATA_BY_SELECTED_CURRENCY_PROPERTY = 102;
     static final int CURRENCY_PROPERTY_ENABLED = 103;
     static final int CURRENCY_DATA_BY_ID = 104;
+    static final int CURRENCY_DATA_BY_CODE = 105;
 
     private static final SQLiteQueryBuilder sCurrencyDataByCurrencyPropertyBuilder;
 
@@ -68,6 +69,12 @@ public class CurrencyPropertyProvider extends ContentProvider {
 
             case CURRENCY_DATA_BY_ID:{
                 retCursor = getCurrencyDataById(uri);
+                break;
+            }
+
+            case CURRENCY_DATA_BY_CODE:{
+                String currencyCode = uri.getPathSegments().get(1);
+                retCursor = getCurrencyDataByCode(currencyCode);
                 break;
             }
 
@@ -168,6 +175,8 @@ public class CurrencyPropertyProvider extends ContentProvider {
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_PROPERTY, CURRENCY_PROPERTY);
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_PROPERTY + "/ENABLED", CURRENCY_PROPERTY_ENABLED);
         matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_DATA + "/#", CURRENCY_DATA_BY_ID);
+        matcher.addURI(authority, CurrencyContract.PATH_CURRENCY_DATA + "/*", CURRENCY_DATA_BY_CODE);
+
 
 
 
@@ -216,10 +225,23 @@ public class CurrencyPropertyProvider extends ContentProvider {
     }
 
 
+    private Cursor getCurrencyDataByCode(String currencyCode){
+
+        return sCurrencyDataByCurrencyPropertyBuilder.query(mCurrencyDbHelper.getReadableDatabase(),
+                null,
+                sCurrencyCode,
+                new String[]{currencyCode},
+                null,
+                null,
+                null
+        );
+
+
+    }
+
     private Cursor getCurrencyDataById(Uri uri){
 
         String id = Long.toString(ContentUris.parseId(uri));
-
 
         return sCurrencyDataByCurrencyPropertyBuilder.query(mCurrencyDbHelper.getReadableDatabase(),
                 null,
@@ -240,6 +262,10 @@ public class CurrencyPropertyProvider extends ContentProvider {
     private static final String sCurrencyDataId =
             CurrencyContract.CurrencyDataEntry.TABLE_NAME+
                     "." + CurrencyContract.CurrencyPropertyEntry._ID+ " = ? ";
+
+    private static final String sCurrencyCode =
+            CurrencyContract.CurrencyPropertyEntry.TABLE_NAME+
+                    "." + CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE+ " = ? ";
 
 
 

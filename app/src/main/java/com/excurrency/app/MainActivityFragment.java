@@ -68,8 +68,10 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                             .setData(CurrencyContract.CurrencyDataEntry.buildCurrencyDataById(cursor.getString(0)));
                     startActivity(intent);*/
 
+                    String currencyCode = cursor.getString(8);
+
                     ((Callback) getActivity())
-                            .onItemSelected(CurrencyContract.CurrencyDataEntry.buildCurrencyDataById(cursor.getString(0)));
+                            .onItemSelected(CurrencyContract.CurrencyDataEntry.buildCurrencyDataByCode(currencyCode));
 
                 }
 
