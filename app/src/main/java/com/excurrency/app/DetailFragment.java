@@ -43,6 +43,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+
         Bundle arguments = getArguments();
         if (arguments != null) {
             detailUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
