@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,8 +54,6 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-
-
         View view = LayoutInflater.from(context).inflate(R.layout.settings_currency_select_list_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view,context,cursor);
@@ -66,6 +65,8 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
+
+
         Log.i(LOG_TAG,cursor.getInt(0) + " " + cursor.getString(2));
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
@@ -87,6 +88,7 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
             viewHolder.currencyEnabled.setOnClickListener(new View.OnClickListener() {
 
+
                 @Override
                 public void onClick(View v) {
                     if (((ToggleButton) v).isChecked()) {
@@ -96,8 +98,11 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
                         String where = CurrencyContract.CurrencyPropertyEntry._ID + " = ?";
 
-                        context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(),
-                                contentValues, where, new String[]{id});
+                            context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(),
+                                    contentValues, where, new String[]{id});
+
+                        changeCursor(getUpdatedCursor(context));
+
 
                         dialog.setSummary(Utils.getSummaryForSelectCurrencies(context));
 
@@ -112,6 +117,8 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
                         context.getContentResolver().update(CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyUpdateToggleUri(),
                                 contentValues, where, new String[]{id});
 
+                        changeCursor(getUpdatedCursor(context));
+
 
                         dialog.setSummary(Utils.getSummaryForSelectCurrencies(context));
                     }
@@ -123,6 +130,13 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
 
         }
 
+    }
+
+    private Cursor getUpdatedCursor(Context context){
+        String sortOrder = CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_COUNTRY + " ASC";
+        Uri currencyListUri = CurrencyContract.CurrencyPropertyEntry.buildCurrencyPropertyListUri();
+        Cursor cursor = context.getContentResolver().query(currencyListUri,null,null,null,sortOrder);
+        return cursor;
     }
 
 }

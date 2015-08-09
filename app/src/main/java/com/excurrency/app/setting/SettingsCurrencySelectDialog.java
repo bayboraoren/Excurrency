@@ -31,7 +31,6 @@ public class SettingsCurrencySelectDialog extends DialogPreference{
 
     private void getCurrencies(Cursor cursor,View view){
 
-
         ListView list = (ListView) view.findViewById(R.id.settings_currency_select_list);
 
         SettingsCurrencySelectCursorAdapter arrAdapter = new SettingsCurrencySelectCursorAdapter(getContext(), cursor, 0,this);
