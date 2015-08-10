@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -198,7 +199,18 @@ public class CurrencyService extends IntentService {
             JSONObject currencyJson = new JSONObject(currencyJsonStr);
             JSONObject query = currencyJson.getJSONObject(CURRENCY_QUERY);
             JSONObject results = query.getJSONObject(CURRENCY_RESULTS);
-            JSONArray rateArray = results.getJSONArray(CURRENCY_RATE_ARRAY);
+            JSONArray rateArray = null;
+
+
+            if(results.optJSONObject(CURRENCY_RATE_ARRAY)==null) {
+                rateArray = results.getJSONArray(CURRENCY_RATE_ARRAY);
+            }else{
+                //object to array
+                JSONObject currency= results.getJSONObject(CURRENCY_RATE_ARRAY);
+                Iterator currencyIter = currency.keys();
+                rateArray = new JSONArray();
+                rateArray.put(currency);
+            }
 
             Vector<ContentValues> currencyVector = new Vector<>(rateArray.length());
 
@@ -243,10 +255,6 @@ public class CurrencyService extends IntentService {
                     }
 
                 }while(retCurrencyPropertyCursor.moveToNext());
-
-
-
-
 
             }
 

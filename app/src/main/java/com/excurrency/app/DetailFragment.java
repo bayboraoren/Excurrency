@@ -26,6 +26,7 @@ import java.util.Locale;
  */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static String TAG = "detailFragment";
     private Uri detailUri;
     static final String DETAIL_URI = "URI";
     private static final int DETAIL_LOADER = 0;
@@ -74,15 +75,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        if ( null != detailUri ) {
-            return new CursorLoader(
-                    getActivity(),
-                    detailUri,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+        CursorLoader cursorLoader = null;
+        if (null != detailUri) {
+            cursorLoader = new CursorLoader(getActivity(), detailUri, null, null, null, null);
+            return cursorLoader;
         }
         return null;
     }
@@ -90,7 +86,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        if(cursor.getCount()>0) {
+        if (cursor.getCount() > 0) {
             //TODO repeating, put utils
             cursor.moveToFirst();
             Resources resources = getActivity().getResources();
@@ -118,12 +114,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             mCurrencyAsk.setText(getString(R.string.ask) + " " + cursor.getString(5));
             mCurrencyBid.setText(getString(R.string.bid) + " " + cursor.getString(6));
+
+        } else {
+            //clean detail component if cursor count is 0
+            mFlagIconView.setImageResource(0);
+            mDay.setText("");
+            mMonthAndDate.setText("");
+            mCurrencyCountry.setText("");
+            mCurrencyName.setText("");
+            mCurrencyRate.setText("");
+            mCurrencyCode.setText("");
+            mCurrencyAsk.setText("");
+            mCurrencyBid.setText("");
         }
 
     }
 
     void onCurrencyPropertyChanged() {
-        if(detailUri!=null) {
+        if (detailUri != null) {
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
     }
@@ -137,9 +145,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("detailUri",detailUri);
+        outState.putParcelable("detailUri", detailUri);
     }
-
 
 
 }

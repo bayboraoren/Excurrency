@@ -227,10 +227,12 @@ public class CurrencyProvider extends ContentProvider {
 
     private Cursor getCurrencyDataByCode(String currencyCode){
 
+        String enabled = "1";
+
         return sCurrencyDataByCurrencyPropertyBuilder.query(mCurrencyDbHelper.getReadableDatabase(),
                 null,
-                sCurrencyCode,
-                new String[]{currencyCode},
+                sEnabledCurrencyCode,
+                new String[]{currencyCode,enabled},
                 null,
                 null,
                 null
@@ -267,6 +269,12 @@ public class CurrencyProvider extends ContentProvider {
             CurrencyContract.CurrencyPropertyEntry.TABLE_NAME+
                     "." + CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE+ " = ? ";
 
+
+    private static final String sEnabledCurrencyCode =
+            CurrencyContract.CurrencyPropertyEntry.TABLE_NAME+
+                    "." + CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_CODE+ " = ? AND "+
+                    CurrencyContract.CurrencyPropertyEntry.TABLE_NAME+
+                    "." + CurrencyContract.CurrencyPropertyEntry.COLUMN_CURRENCY_ENABLED+ " = ?";
 
 
 }

@@ -23,7 +23,7 @@ public class DetailActivity extends ActionBarActivity {
             fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.currency_detail_container, fragment)
+                    .add(R.id.currency_detail_container, fragment,DetailFragment.TAG)
                     .commit();
         }
 

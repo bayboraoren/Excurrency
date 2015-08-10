@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.excurrency.app.DetailFragment;
 import com.excurrency.app.R;
 import com.excurrency.app.Utils;
 import com.excurrency.app.data.CurrencyContract;
@@ -118,7 +122,6 @@ public class SettingsCurrencySelectCursorAdapter extends CursorAdapter implement
                                 contentValues, where, new String[]{id});
 
                         changeCursor(getUpdatedCursor(context));
-
 
                         dialog.setSummary(Utils.getSummaryForSelectCurrencies(context));
                     }
