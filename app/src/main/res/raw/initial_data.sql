@@ -1,5 +1,4 @@
 -- INITIAL DATA FOR CURRENCY PROPERTIES
-
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AFN','Afghanistan Afghani','afghanistan',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('ALL','Albanian Lek','albania',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('DZD','Algerian Dinar','algeria',0);
