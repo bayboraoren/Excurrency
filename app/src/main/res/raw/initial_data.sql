@@ -87,8 +87,6 @@ INSERT INTO currency_property(currency_code,currency_name,currency_country,curre
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('XCD','East Carribean Dollar','grenada',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('EUR','Euro','guadeloupe(french)',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('USD','US Dollar','guam(usa)',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('QTQ','Guatemalan Quetzal','guatemala',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('GGP','Pound Sterling','guernsey',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('GNF','Guinea Franc','guinea',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('GWP','Guinea-Bissau Peso','guinea bissau',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('GYD','Guyana Dollar','guyana',0);
@@ -129,7 +127,6 @@ INSERT INTO currency_property(currency_code,currency_name,currency_country,curre
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('EUR','Euro','luxembourg',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MOP','Macau Pataca','macau',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MKD','Denar','macedonia',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MGF','Malagasy Franc','madagascar',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MWK','Malawi Kwacha','malawi',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MYR','Malaysian Ringgit','malaysia',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MVR','Maldive Rufiyaa','maldives',0);
@@ -221,7 +218,7 @@ INSERT INTO currency_property(currency_code,currency_name,currency_country,curre
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TOP','Tongan Paanga','tonga',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TTD','Trinidad and Tobago Dollar','trinidad and tobago',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TND','Tunisian Dollar','tunisia',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TRY','Turkish Lira','turkey',1);
+INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TRY','Turkish Lira','turkey',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('TMT','Manat','turkmenistan',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('USD','US Dollar','turks and caicos islands',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('AUD','Australian Dollar','tuvalu',0);
@@ -243,4 +240,3 @@ INSERT INTO currency_property(currency_code,currency_name,currency_country,curre
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('MAD','Moroccan Dirham','western sahara',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('YER','Yemeni Rial','yemen',0);
 INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('ZMW','Zambian Kwacha','zambia',0);
-INSERT INTO currency_property(currency_code,currency_name,currency_country,currency_enabled) VALUES('ZWD','Zimbabwe Dollar','zimbabwe',0);
